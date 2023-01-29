@@ -19,13 +19,34 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     SpotRepository spotRepository1;
     @Override
     public ParkingLot addParkingLot(String name, String address) {
-        ParkingLot parkingLot = parkingLotRepository1.save(name, address);
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setName(name);
+        parkingLot.setAddress(address);
+        parkingLotRepository1.save(parkingLot);
         return parkingLot;
     }
 
     @Override
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
-        Spot spot = spotRepository1.save(parkingLotId, numberOfWheels, pricePerHour);
+        Spot spot = new Spot();
+
+        ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
+        spot.setParkingLot(parkingLot);
+        spot.setPricePerHour(pricePerHour);
+
+        if(numberOfWheels > 2 && numberOfWheels <= 4){
+            spot.setSpotType(SpotType.FOUR_WHEELER);
+        }
+        else if(numberOfWheels > 4){
+            spot.setSpotType(SpotType.OTHERS);
+        }
+        else{
+            spot.setSpotType(SpotType.TWO_WHEELER);
+        }
+
+        spot.setOccupied(false);
+        parkingLot.getSpotList().add(spot);
+        parkingLotRepository1.save(parkingLot);
         return spot;
     }
 
@@ -36,17 +57,22 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public Spot updateSpot(int parkingLotId, int spotId, int pricePerHour) {
-        Spot spot = spotRepository1.findById(parkingLotId, spotId, pricePerHour);
-        ParkingLot parkingLot = spot.getParkingLot();
+        Spot spot = null;
+        ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
 
+        List<Spot> spotList = parkingLot.getSpotList();
 
-        parkingLot.setId(parkingLotId);
+        for(Spot spot1 : spotList){
+            if(spot1.getId() == spotId){
+                spot = spot1;
+            }
+        }
+
         spot.setParkingLot(parkingLot);
-        spot.setId(spotId);
         spot.setPricePerHour(pricePerHour);
 
-        Spot updatedSpot = spotRepository1.save(spot);
-        return updatedSpot;
+        spotRepository1.save(spot);
+        return spot;
     }
 
     @Override

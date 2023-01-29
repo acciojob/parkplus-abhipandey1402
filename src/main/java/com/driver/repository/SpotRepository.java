@@ -7,7 +7,4 @@ import com.driver.model.*;
 @Repository
 public interface SpotRepository extends JpaRepository<Spot, Integer>{
 
-    Spot save(int parkingLotId, Integer numberOfWheels, Integer pricePerHour);
-
-    Spot findById(int parkingLotId, int spotId, int pricePerHour);
 }
