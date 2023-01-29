@@ -6,6 +6,7 @@ import com.driver.repository.ReservationRepository;
 import com.driver.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.driver.model.*;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -17,5 +18,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
 
+        return null;
     }
 }
