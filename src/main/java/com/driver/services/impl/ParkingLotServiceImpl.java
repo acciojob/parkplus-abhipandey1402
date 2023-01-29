@@ -29,22 +29,26 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         Spot spot = new Spot();
 
         ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
-        spot.setParkingLot(parkingLot);
-        spot.setPricePerHour(pricePerHour);
+
+        SpotType spotType = null;
+
 
         if(numberOfWheels > 2 && numberOfWheels <= 4){
-            spot.setSpotType(SpotType.FOUR_WHEELER);
+            spotType = spotType.FOUR_WHEELER;
         }
         else if(numberOfWheels > 4){
-            spot.setSpotType(SpotType.OTHERS);
+            spotType = spotType.OTHERS;
         }
         else{
-            spot.setSpotType(SpotType.TWO_WHEELER);
+            spotType = spotType.TWO_WHEELER;
         }
+        spot.setSpotType(spotType);
+        spot.setPricePerHour(pricePerHour);
 
-        spot.setOccupied(false);
+        List<Spot> spotList = parkingLot.getSpotList();
+        spotList.add(spot);
+        parkingLot.setSpotList(spotList);
         spot.setParkingLot(parkingLot);
-        parkingLot.getSpotList().add(spot);
         parkingLotRepository1.save(parkingLot);
         return spot;
     }
@@ -64,12 +68,14 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         for(Spot spot1 : spotList){
             if(spot1.getId() == spotId){
                 spot = spot1;
+                break;
             }
         }
 
         spot.setParkingLot(parkingLot);
         spot.setPricePerHour(pricePerHour);
 
+        parkingLot.getSpotList().add(spot);
         spotRepository1.save(spot);
         return spot;
     }
