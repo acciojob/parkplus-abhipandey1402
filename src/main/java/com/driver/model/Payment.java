@@ -1,60 +1,48 @@
 package com.driver.model;
-
 import javax.persistence.*;
-
 @Entity
 @Table
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private Boolean isPaymentCompleted;
-
-    @Enumerated(value = EnumType.STRING)
+    public boolean isPaymentCompleted;
+    public boolean isPaymentCompleted(){return isPaymentCompleted;}
+    public void setPaymentCompleted(boolean paymentCompleted){
+        this.isPaymentCompleted=paymentCompleted;
+    }
+    @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
-
     @OneToOne
     @JoinColumn
     private Reservation reservation;
-
-    public Payment() {
-    }
-
-    public Payment(Boolean paymentCompleted, PaymentMode paymentMode) {
-        this.isPaymentCompleted = isPaymentCompleted;
-        this.paymentMode = paymentMode;
-    }
-
-    public int getId() {
-        return id;
-    }
+    public Payment(){}
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Boolean getisPaymentCompleted() {
-        return isPaymentCompleted;
-    }
-
-    public void setPaymentCompleted(Boolean paymentCompleted) {
-        this.isPaymentCompleted = paymentCompleted;
-    }
-
-    public PaymentMode getPaymentMode() {
-        return paymentMode;
     }
 
     public void setPaymentMode(PaymentMode paymentMode) {
         this.paymentMode = paymentMode;
     }
 
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
     public Reservation getReservation() {
         return reservation;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public int getId() {
+        return id;
+    }
+
+    public PaymentMode getPaymentMode() {
+        return paymentMode;
+    }
+    public Payment(boolean paymentCompleted, PaymentMode paymentMode){
+        setPaymentMode(paymentMode);
+        this.isPaymentCompleted = paymentCompleted;
     }
 }
