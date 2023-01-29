@@ -3,7 +3,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table
 public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

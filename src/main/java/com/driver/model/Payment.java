@@ -1,7 +1,6 @@
 package com.driver.model;
 import javax.persistence.*;
 @Entity
-@Table
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
