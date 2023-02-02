@@ -6,6 +6,5 @@ import com.driver.model.*;
 
 @Repository
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer>{
-
-//    hh
+    
 }
